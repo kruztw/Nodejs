@@ -3,7 +3,8 @@ const app = express();
 
 app.get("/", (req, res) => {
     res.clearCookie("key");
-    res.cookie("key", Math.random(), {path:'/', httpOnly: false});
+    if (!req.cookie || req.cookie.key)
+        res.cookie("key", Math.random(), {path:'/', httpOnly: false});
     res.send("hello world");
 });
 
