@@ -1,0 +1,16 @@
+# https://blog.hinablue.me/apache-note-about-some-rewrite-note-2011-05/
+
+RewriteEngine on
+RewriteBase /             # /$1/$2/...
+
+
+RewriteRule ^a.*$ index.php [L]   # a 開頭轉到 index.php , L: 至此結束
+RewriteRule ^b.*$ -      [NC,L]   # b 開頭直接 404, - 代表使用原 uri, NC: no case
+
+
+RewriteCond %{REQUEST_FILENAME} -f # 如果請求檔案, -f: 檔案, -d: 資料夾, -s: size > 0 的檔案
+RewriteRule ^flag$ - [NC,F,L]      # 如果是 flag 則檢查權限, 決定是否給看,  F: 確認權限
+
+
+
+RewriteRule ^(.*)$ index.php [L,QSA]  # 不管輸入什麼都跳到 index.php , QSA: Query String Append (一併傳入 GET, POST 等參數) , 這個 rule 通常加在最後一行

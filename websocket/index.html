@@ -1,0 +1,23 @@
+<html>
+    <script>
+        let socket;
+
+        function handler(){
+            socket = new WebSocket("ws://" + document.URL.substr(7).split('/')[0], "greet");
+
+            socket.onopen = function(e) {
+                socket.send(JSON.stringify({type: 'say_hello', content: {username:'index.html', msg:'hello world'}}));
+            };
+
+            socket.onmessage = function(event) {
+                let data = JSON.parse(event.data);
+                console.log(data);
+                socket.close();
+            };
+        }
+
+    </script>
+    
+    <input type="submit" value="click me" onclick="handler()" />
+
+</html>
